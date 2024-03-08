@@ -2,8 +2,8 @@
 #include <vector>
 #include <queue>
 #include <unistd.h>
-
-int N, M;
+#include <fstream>
+#include <sstream>
 
 class GameOfLife
 {
@@ -35,22 +35,72 @@ class GameOfLife
 		}
 
 	public:
-		GameOfLife(int r, int c) : rows(r), cols(c)
+		GameOfLife(void)
 		{
-			board.resize(rows, std::vector<bool>(cols, false));
+			rows = 0;
+			cols = 0;
 		}
 
-		void initBoard()
+		void initBoard(int argc, char **argv)
 		{
-			std::cout << "\t* Enter the Board N by M *\n";
-			char tmp;
-			for (int i = 0 ; i < N ; ++i)
+			if (argc == 1)
 			{
-				for (int j = 0 ; j < M ; ++j)
+				std::cout << " * Enter the rows and cols *\n";
+				std::cout << "\trows: ";
+				std::cin >> rows;
+				std::cout << "\tcols: ";
+				std::cin >> cols;
+				std::cout << "\t* Enter the Board N by M *\n";
+				board.resize(rows, std::vector<bool>(cols, false));
+				char tmp;
+				for (int i = 0 ; i < rows ; ++i)
 				{
-					std::cin >> tmp;
-					board[i][j] = (bool)(tmp - '0');
+					for (int j = 0 ; j < cols ; ++j)
+					{
+						std::cin >> tmp;
+						board[i][j] = (bool)(tmp - '0');
+					}
 				}
+			}
+			else if (argc == 2)
+			{
+				std::ifstream file(argv[1]); // 파일을 열기 위한 ifstream 객체 생성
+				if (file.is_open())
+				{
+					std::string line;
+					if (std::getline(file, line)) // 파일에서 한 줄 읽기
+					{
+						std::istringstream iss(line);
+						if (!(iss >> rows >> cols)) // 읽은 줄에서 N과 M을 추출
+						{
+							std::cerr << "Error: File format is incorrect.\n";
+							exit(1);
+						}
+						board.resize(rows, std::vector<bool>(cols, false));
+						for (int i = 0; i < rows; ++i)
+						{
+							if (!std::getline(file, line))
+							{
+								std::cerr << "Error: Unexpected end of file or format error.\n";
+								exit(1);
+							}
+							for (int j = 0; j < cols; ++j)
+								if (j < line.length())
+									board[i][j] = (line[j] == '1');
+						}	
+					}
+					file.close();
+				}
+				else
+				{
+					std::cerr << "Error: Could not open file " << argv[1] << "\n";
+					exit(1);
+				}
+			}
+			else
+			{
+				std::cerr << "Error: Too many arguments.\n";
+				exit(1);
 			}
 		}
 
@@ -93,20 +143,10 @@ class GameOfLife
 		}
 };
 
-void Input(void)
+int	main(int argc, char **argv)
 {
-	std::cout << " * Enter the N(rows) and M(cols) *\n";
-	std::cout << "\tN: ";
-	std::cin >> N;
-	std::cout << "\tM: ";
-	std::cin >> M;
-}
-
-int	main(void)
-{
-	Input();
-	GameOfLife game(N, M);
-	game.initBoard();
+	GameOfLife game;
+	game.initBoard(argc, argv);
 	game.runGame();
 
 	return (0);
