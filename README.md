@@ -5,6 +5,9 @@
 
 ![Screen Recording 2024-03-08 at 20 48 12](https://github.com/Tastypotato245/Conway-s-Game-of-Life/assets/63251068/4228e000-7c6b-4ebe-9aa6-21df8cc661da)
 
+![Screen Recording 2024-03-08 at 21 00 56](https://github.com/Tastypotato245/Conway-s-Game-of-Life/assets/63251068/b2e0343d-29f9-426c-95b9-87fb952f16f7)
+
+
 # TODO
 - [ ] Exception Handling
 - [ ] Optimization by using queue (life tracking by bfs)
