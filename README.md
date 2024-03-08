@@ -5,7 +5,11 @@
 
 ![Screen Recording 2024-03-08 at 20 48 12](https://github.com/Tastypotato245/Conway-s-Game-of-Life/assets/63251068/4228e000-7c6b-4ebe-9aa6-21df8cc661da)
 
-
+# TODO
+- [ ] Exception Handling
+- [ ] Optimization by using queue (life tracking by bfs)
+- [ ] add example board
+- [ ] add editing mode
 
 # Os and Compiler
 ### OS
