@@ -138,7 +138,7 @@ class GameOfLife
 			{
 				printBoard();
 				updateBoard();
-				usleep(400000);
+				usleep(200000);
 			}
 		}
 };
